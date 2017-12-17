@@ -6,20 +6,10 @@
 #     "graphql": "git://github.com/graphql/graphql-js.git#npm"
 #
 
-babel src --ignore __tests__ --out-dir npm
-
-# Ensure a vanilla package.json before deploying so other tools do not interpret
-# The built output as requiring any further transformation.
-node -e "var package = require('./package.json'); \
-  delete package.scripts; \
-  delete package.options; \
-  delete package.devDependencies; \
-  require('fs').writeFileSync('./npm/package.json', JSON.stringify(package, null, 2));"
-
-cp README.md npm/
-cp LICENSE npm/
-
-cd npm
+npm run build
+cp README.md dist/
+cp LICENSE dist/
+cd dist
 git init
 git config user.name "Travis CI"
 git config user.email "github@fb.com"
